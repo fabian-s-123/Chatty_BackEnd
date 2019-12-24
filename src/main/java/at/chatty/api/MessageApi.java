@@ -19,12 +19,17 @@ public class MessageApi {
 
 
     @PostMapping
-    public ResponseEntity createMessage (@RequestBody Message message) {
-        boolean success = this.messageController.createMessage(message);
-        if (success) {
-            return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity createMessage(@RequestBody Message message) {
+        try {
+            boolean success = this.messageController.createMessage(message);
+            if (success) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping

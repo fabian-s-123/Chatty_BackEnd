@@ -13,16 +13,13 @@ public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @NotNull
     private String content;
-
     @NotNull
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
-
     @Column(name = "posted_on", nullable = false)
     @CreationTimestamp
     private Timestamp postedOn;

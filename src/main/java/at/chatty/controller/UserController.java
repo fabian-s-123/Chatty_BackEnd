@@ -13,13 +13,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    public String createUser(User user) {
+    /**
+     * The userName can only be used once, irregardless of this user currently being active oer not.
+     *
+     * @param user
+     * @return
+     */
+    public boolean createUser(User user) {
         Optional<User> currentUser = this.userRepository.findByUserName(user.getUserName());
         if (currentUser.isPresent()) {
-            return "already-in-use";
+            return false;
         } else {
             this.userRepository.save(user);
-            return "success";
+            return true;
         }
     }
 

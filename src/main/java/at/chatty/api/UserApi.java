@@ -17,18 +17,17 @@ public class UserApi {
     @Autowired
     private UserController userController;
 
-
     @PostMapping
     public ResponseEntity createUser(@RequestBody User user) {
-        String result = this.userController.createUser(user);
-        switch (result) {
-            case "success":
-                return new ResponseEntity<>("success", HttpStatus.OK);
-            case "already-in-use":
-                return new ResponseEntity<>("already-in-use", HttpStatus.FORBIDDEN);
-            default:
-                return new ResponseEntity<>("something-went-wrong", HttpStatus.BAD_REQUEST);
+        try {
+            boolean result = this.userController.createUser(user);
+            if (result) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } return new ResponseEntity<>("userName already in use", HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping

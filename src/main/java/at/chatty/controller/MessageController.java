@@ -14,11 +14,14 @@ public class MessageController {
     private MessageRepository messageRepository;
 
     public boolean createMessage(Message message) {
-        this.messageRepository.save(message);
-        return true;
+        if (!(this.messageRepository.save(message) == null)) {
+            return true;
+        }
+        return false;
     }
 
     public Iterable<Message> findAllMessages() {
+
         return this.messageRepository.findAll();
     }
 

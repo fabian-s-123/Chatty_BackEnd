@@ -10,11 +10,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
     @NotNull
     @Column(name = "user_name")
     private String userName;
-
     @OneToMany(mappedBy = "user")
     private List<Message> messages;
     private boolean isActive = true;
