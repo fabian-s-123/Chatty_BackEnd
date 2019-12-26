@@ -1,12 +1,15 @@
 package at.chatty.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class Message {
 
@@ -17,12 +20,11 @@ public class Message {
     private String content;
     @NotNull
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
     @Column(name = "posted_on", nullable = false)
     @CreationTimestamp
-    private Timestamp postedOn;
+    private LocalDateTime postedOn;
 
 
     public int getId() {
@@ -45,11 +47,11 @@ public class Message {
         this.user = user;
     }
 
-    public Timestamp getPostedOn() {
+    public LocalDateTime getPostedOn() {
         return postedOn;
     }
 
-    public void setPostedOn(Timestamp postedOn) {
+    public void setPostedOn(LocalDateTime postedOn) {
         this.postedOn = postedOn;
     }
 }

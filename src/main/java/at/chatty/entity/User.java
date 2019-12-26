@@ -1,9 +1,14 @@
 package at.chatty.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class User {
 
@@ -13,8 +18,7 @@ public class User {
     @NotNull
     @Column(name = "user_name")
     private String userName;
-    @OneToMany(mappedBy = "user")
-    private List<Message> messages;
+
     private boolean isActive = true;
 
     public int getId() {
@@ -27,14 +31,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
     }
 
     public boolean getIsActive() {
