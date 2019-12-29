@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -17,6 +18,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotNull
+    @Column(length = 500)
     private String content;
     @NotNull
     @ManyToOne

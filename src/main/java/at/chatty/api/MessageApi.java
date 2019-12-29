@@ -1,6 +1,7 @@
 package at.chatty.api;
 
 import at.chatty.controller.MessageController;
+import at.chatty.dto.MessageDTO;
 import at.chatty.entity.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,18 @@ public class MessageApi {
     @Autowired
     private MessageController messageController;
 
-
     @PostMapping
     public ResponseEntity createMessage(@RequestBody Message message) {
         try {
-            boolean success = this.messageController.createMessage(message);
-            if (success) {
-                return new ResponseEntity<>(HttpStatus.OK);
+            String success = this.messageController.createMessage(message);
+            switch (success) {
+                case "lenght":
+                    return new ResponseEntity<>("message cannot be longer than 500 characters", HttpStatus.FORBIDDEN);
+                case "success":
+                    return new ResponseEntity<>("success", HttpStatus.OK);
+                case "failed":
+                    return new ResponseEntity<>("something went wrong", HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -33,7 +37,7 @@ public class MessageApi {
     }
 
     @GetMapping
-    public Iterable<Message> findAllMessages() {
+    public Iterable<MessageDTO> findAllMessages() {
         return this.messageController.findAllMessages();
     }
 
