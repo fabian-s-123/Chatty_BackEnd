@@ -22,7 +22,7 @@ public class UserApi {
         try {
             boolean result = this.userController.createUser(user);
             if (result) {
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(user.getId(), HttpStatus.OK);
             } return new ResponseEntity<>("userName already in use", HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             System.out.println(e);
