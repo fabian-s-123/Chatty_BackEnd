@@ -22,11 +22,19 @@ public class UserController {
     public boolean createUser(User user) {
         Optional<User> currentUser = this.userRepository.findByUserName(user.getUserName());
         if (currentUser.isPresent()) {
-            return false;
+            if (currentUser.get().getIsActive()) {
+                return false;
+            } this.changeIsActive(currentUser.get().getId());
+            return true;
         } else {
             this.userRepository.save(user);
             return true;
         }
+    }
+
+    public int findByUserName(String userName) {
+        Optional<User> currentUser = this.userRepository.findByUserName(userName);
+        return currentUser.get().getId();
     }
 
     public Iterable<User> findAllUser() {
@@ -38,12 +46,15 @@ public class UserController {
     }
 
     public boolean changeIsActive(int id) {
-        Optional<User> currentUser = (this.userRepository.findById(id));
-        if (currentUser.isPresent()) {
-            currentUser.get().setIsActive(!currentUser.get().getIsActive());
+        try {
+            User currentUser = (this.userRepository.findById(id).get());
+            currentUser.setIsActive(!currentUser.getIsActive());
+            this.userRepository.saveAndFlush(currentUser);
             return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
         }
-        return false;
     }
 
     public boolean deleteAllUser() {
