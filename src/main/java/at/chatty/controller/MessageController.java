@@ -18,7 +18,7 @@ public class MessageController {
 
     public String createMessage(Message message) {
         if (message.getContent().length() > 500) {
-            return "lenght";
+            return "length";
         } else if (!(this.messageRepository.save(message) == null)) {
             return "success";
         }
